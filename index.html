@@ -6,10 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
-    <link rel="stylesheet" href="./assets/bootstrap/v5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/v5.3.0/css/bootstrap.min.css">
 </head>
 
 <body>
+    <div id="toastShow">
+
+    </div>
     <div class="container">
         <header>
 
@@ -66,7 +69,7 @@
     </div>
 
     <!-- modal edit -->
-    <div class="modal" tabindex="-1" id="modal-edit-customer">
+    <div class="modal" tabindex="-1" id="modalEditCustomer">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -74,41 +77,121 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="form-group">
+                    <form class="form-group" id="frmEditCustomer">
                         <div class="row mb-3">
                             <div class="col-lg-6">
                                 <label for="fullName">Full Name</label>
-                                <input type="text" id="fullName" class="form-control">
+                                <input type="text" id="fullNameUp" class="form-control">
                             </div>
                             <div class="col-lg-6">
                                 <label for="email">Email</label>
-                                <input type="email" id="email" class="form-control">
+                                <input type="email" id="emailUp" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-lg-6">
                                 <label for="phone">Phone</label>
-                                <input type="tel" id="phone" class="form-control">
+                                <input type="tel" id="phoneUp" class="form-control">
                             </div>
                             <div class="col-lg-6">
                                 <label for="address">Address</label>
-                                <input type="text" id="address" class="form-control">
+                                <input type="text" id="addressUp" class="form-control">
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="btnUpdate">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- modal deposit -->
+    <div class="modal" tabindex="-1" id="modalDeposit">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal deposit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group" id="frmDepositCustomer">
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullNameDeposit" class="form-control" readonly>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="phoneDeposit">Phone</label>
+                                <input type="text" id="phoneDeposit" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <label for="balanceDeposit">Balance</label>
+                                <input type="number" id="balanceDeposit" class="form-control" readonly>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="transactionAmount">Transaction amount</label>
+                                <input type="text" id="transactionAmount"  class="form-control">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnDeposit">Deposit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <script src="./assets/jquery/jquery-3.6.4.min.js"></script>
-    <script src="./assets/bootstrap/v5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="./assets/sweetalert2/sweetalert2-v11.7.3.js"></script>
+    <!-- modal withdraw -->
+    <div class="modal" tabindex="-1" id="modalWithdraw" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal deposit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group" id="frmWithdrawCustomer">
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullNameWithdraw" class="form-control" readonly>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="phoneWithdraw">Phone</label>
+                                <input type="text" id="phoneWithdraw" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <label for="balanceDeposit">Balance</label>
+                                <input type="number" id="balanceWithdraw" class="form-control" readonly>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="transactionAmountWithdraw">Transaction amount</label>
+                                <input type="text" id="transactionAmountWithdraw"  class="form-control">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnWithdraw">Withdraw</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="/assets/jquery/jquery-3.6.4.min.js"></script>
+    <script src="/assets/bootstrap/v5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/sweetalert2/sweetalert2-v11.7.3.js"></script>
 
     <script>
         let customerId = 1;
@@ -130,7 +213,7 @@
                 balance: 0
             }
         ];
-
+        let currentCustomerId;
         // let tbody = document.querySelector('#tbCustomer tbody');
         let tbody = $('#tbCustomer tbody');
         // $(document).ready(() => {
@@ -143,7 +226,6 @@
         //     }
         // })
 
-
         function getAllCustomers() {
             $.each(customers, (index, item) => {
                 let str = renderCustomer(item);
@@ -152,9 +234,13 @@
 
             $('.edit').off('click');
             $('.delete').off('click');
+            $('.deposit').off('click');
+            $('.withraw').off('click');
 
             eventEdit();
             eventDelete();
+            eventDeposit()
+            eventWithdraw();
 
         }
 
@@ -175,13 +261,33 @@
                             <button class="btn btn-outline-danger delete" data-id="${customer.id}">
                                 <a>Delete</a>
                             </button>
+
+                            <button class="btn btn-outline-success deposit" data-id="${customer.id}">
+                                <a>Deposit</a>
+                            </button>
+
+                            <button class="btn btn-outline-warning withraw" data-id="${customer.id}">
+                                <a>Withraw</a>
+                            </button>
                         </td>
                     </tr>
                 `;
         }
 
-        getAllCustomers();
+        function renderToastMesseger(mes){
+            return ` <div class="toast hide align-items-center text-white bg-danger border-0" role="alert" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="500" aria-live="assertive">
+                        <div class="d-flex">
+                        <div class="toast-body">
+                            <p>
+                                ${mes}
+                            </p>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>`;
+        }
 
+        getAllCustomers();
 
         $('#btnCreate').on('click', () => {
             let id = customerId++;
@@ -202,7 +308,7 @@
 
             customers.push(customer);
 
-            document.getElementById("frm-create-customer").reset();
+            $('#frm-create-customer')[0].reset();
 
             let str = renderCustomer(customer);
 
@@ -212,19 +318,147 @@
 
             $('.edit').off('click');
             $('.delete').off('click');
+            $('.deposit').off('click');
+            $('.withraw').off('click');
 
             eventEdit();
             eventDelete();
+            eventDeposit()
+            eventWithdraw();
 
             // tbody.empty();
             // getAllCustomers();
         })
 
+        $('#btnUpdate').on('click', ()=>{
+            let customerUpdate = customers.find(cus => cus.id == currentCustomerId);
 
+            customerUpdate.fullName = $('#fullNameUp').val();
+            customerUpdate.address = $('#addressUp').val();
+            customerUpdate.email = $('#emailUp').val();
+            customerUpdate.phone = $('#phoneUp').val();
+
+            let str = renderCustomer(customerUpdate);
+
+            $('#tr_' + currentCustomerId).replaceWith(str);
+
+            $('#modalEditCustomer').modal('hide');
+
+            successAler("Saved customer!!");
+
+            $('.edit').off('click');
+            $('.delete').off('click');
+            $('.deposit').off('click');
+            $('.withraw').off('click');
+
+            eventEdit();
+            eventDelete();
+            eventDeposit()
+            eventWithdraw();
+            
+        })
+
+        $('#btnDeposit').on('click', ()=>{
+            let customer = customers.find(c => c.id == currentCustomerId);
+            let currentBalance = +customer.balance;
+            let transactionAmount = +$('#transactionAmount').val();
+            
+            if(isNaN(transactionAmount)){
+                
+                console.log(transactionAmount);
+                return;
+            }
+
+            if(transactionAmount<0){
+            
+                console.log(transactionAmount);
+                return;
+            }
+
+            let newBalance = currentBalance +  transactionAmount;
+
+            customer.balance = newBalance;
+            console.log(customer);
+
+            $('#modalDeposit').modal('hide');
+
+            $('#frmDepositCustomer')[0].reset();
+
+            successAler('Successfully add money');
+
+            let str = renderCustomer(customer)
+
+            $('#tr_' + currentCustomerId).replaceWith(str);
+
+            $('.edit').off('click');
+            $('.delete').off('click');
+            $('.deposit').off('click');
+            $('.withraw').off('click');
+
+            eventEdit();
+            eventDelete();
+            eventDeposit()
+            eventWithdraw();
+
+        })
+
+        $('#btnWithdraw').on('click', ()=>{
+            let customer = customers.find(c => c.id == currentCustomerId);
+            let currentBalance = +customer.balance;
+            let transactionAmount = +$('#transactionAmountWithdraw').val();
+
+            if(isNaN(transactionAmount)){
+            
+                $(document).ready(()=>{
+                    let str = renderToastMesseger("Need to enter numbers, not letters!");
+                    $('#toastShow').prepend(str);
+                    $('.toast').show();
+                })
+                console.log(transactionAmount);
+                return;
+            }
+
+            if(transactionAmount<0){
+                $('.toast').show();
+                console.log(transactionAmount);
+                return;
+            }
+
+            if(transactionAmount> currentBalance){
+                // show toast
+                console.log("transactionAmount> currentBalance");
+                return;
+            }
+
+            let newBalance = currentBalance - transactionAmount;
+            customer.balance = newBalance;
+            console.log(customer);
+
+            ('#modalWithdraw').modal('hide');
+
+            $('#frmWithdrawCustomer')[0].reset();
+
+            successAler("Successful withdrawal!");
+
+
+            let str = renderCustomer(customer);
+            $('#tr_' + currentCustomerId).replaceWith(str);
+
+        })
+        
         function eventEdit() {
             $('.edit').on('click', function(){
-                let customerId = $(this).data("id");
-                console.log(customerId);
+                let customerId = $(this).data("id");           
+                let customer = customers.find(cus => cus.id == customerId);
+                if(customer == 'undefined'){  
+                    return errorAler("Something wrong!");
+                }
+                currentCustomerId = customerId;
+                $('#fullNameUp').val(customer.fullName);
+                $('#emailUp').val(customer.email);
+                $('#phoneUp').val(customer.phone);
+                $('#addressUp').val(customer.address);
+                $('#modalEditCustomer').modal('show');
             })
         }
 
@@ -282,7 +516,35 @@
             })
         }
 
+        function eventDeposit(){
+            $('.deposit').on('click', function(){
+                let customerId = $(this).data('id');
+                let customer = customers.find(c => c.id == customerId);
+                currentCustomerId = customerId;
+                $('#fullNameDeposit').val(customer.fullName);
+                $('#phoneDeposit').val(customer.phone);
+                $('#balanceDeposit').val(customer.balance);
+                $('#transactionAmount').val(0);
+                $('#modalDeposit').modal('show');
+            })
+        }
+    
+        function eventWithdraw(){
+            $('.withraw').on('click', function(){
+                let customerId = $(this).data('id');
+                let customer = customers.find(c => c.id == customerId);
+                currentCustomerId = customerId;
+                $('#fullNameWithdraw').val(customer.fullName);
+                $('#phoneWithdraw').val(customer.phone);
+                $('#balanceWithdraw').val(customer.balance);
+                $('#transactionAmountWithdraw').val(0);
 
+                $('#modalWithdraw').modal('show');
+
+            })
+        }
+    
+    
     </script>
 </body>
 
