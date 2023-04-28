@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
-    <link rel="stylesheet" href="/assets/bootstrap/v5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/v5.3.0/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -189,9 +189,9 @@
     </div>
     
 
-    <script src="/assets/jquery/jquery-3.6.4.min.js"></script>
-    <script src="/assets/bootstrap/v5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/sweetalert2/sweetalert2-v11.7.3.js"></script>
+    <script src="assets/jquery/jquery-3.6.4.min.js"></script>
+    <script src="assets/bootstrap/v5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/sweetalert2/sweetalert2-v11.7.3.js"></script>
 
     <script>
         let customerId = 1;
@@ -364,13 +364,17 @@
             let transactionAmount = +$('#transactionAmount').val();
             
             if(isNaN(transactionAmount)){
-                
+                let str = renderToastMesseger("Need to enter numbers, not letters!");
+                $('#toastShow').prepend(str);
+                $('.toast').show();
                 console.log(transactionAmount);
                 return;
             }
 
             if(transactionAmount<0){
-            
+                let str = renderToastMesseger("Enter a non-negative number");
+                $('#toastShow').prepend(str);
+                $('.toast').show();
                 console.log(transactionAmount);
                 return;
             }
@@ -408,24 +412,25 @@
             let transactionAmount = +$('#transactionAmountWithdraw').val();
 
             if(isNaN(transactionAmount)){
-            
-                $(document).ready(()=>{
-                    let str = renderToastMesseger("Need to enter numbers, not letters!");
-                    $('#toastShow').prepend(str);
-                    $('.toast').show();
-                })
+                let str = renderToastMesseger("Need to enter numbers, not letters!");
+                $('#toastShow').prepend(str);
+                $('.toast').show();
                 console.log(transactionAmount);
                 return;
             }
 
             if(transactionAmount<0){
+                let str = renderToastMesseger("Enter a non-negative number");
+                $('#toastShow').prepend(str);
                 $('.toast').show();
                 console.log(transactionAmount);
                 return;
             }
 
             if(transactionAmount> currentBalance){
-                // show toast
+                let str = renderToastMesseger("The amount is not enough!");
+                $('#toastShow').prepend(str);
+                $('.toast').show();
                 console.log("transactionAmount> currentBalance");
                 return;
             }
