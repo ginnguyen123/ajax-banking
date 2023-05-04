@@ -416,7 +416,7 @@
             .done((data)=>{
                 $('#frm-create-customer')[0].reset();
 
-                let str = renderCustomer(customer);
+                let str = renderCustomer(data);
 
                 tbody.prepend(str);
 
@@ -960,16 +960,16 @@
             })
         }
         
-        
-
-        $(()=>{
-            $('#transferAmount').on("input", function(){
+        $('#transferAmount').on("input", function(){
                 let transferAmount = +$('#transferAmount').val();
                 let fees = 10;
                 let feesAmount = transferAmount * fees / 100;
                 let transactionAmount = transferAmount + feesAmount;
                 $('#transactionAmount').val(transactionAmount);
-            })
+        })
+
+        $(()=>{
+            
         })
         
     </script>
