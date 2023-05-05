@@ -19,7 +19,7 @@
         </header>
 
         <div class="content">
-            <form method="post" id="frm-create-customer">
+            <!-- <form method="post" id="frm-create-customer">
                 <div class="row mb-3">
                     <div class="col-lg-6">
                         <label for="fullName">Full Name</label>
@@ -47,8 +47,12 @@
                         </button>
                     </div>
                 </div>
-            </form>
-
+            </form> -->
+            <div class="row float-end" style="margin: 15px;">
+                <button class="btn btn-outline-primary" id="createCustomer">
+                    <a>Create</a>
+                </button>
+            </div>
             <table id="tbCustomer" class="table table-hover" style="border: 1px solid black;">
                 <thead>
                     <tr>
@@ -56,8 +60,11 @@
                         <th>FullName</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th>Address</th>
                         <th>Balance</th>
+                        <th>Province</th>
+                        <th>District</th>
+                        <th>Ward</th>
+                        <th>Address</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -65,6 +72,68 @@
 
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- modal create -->
+    <div class="modal" tabindex="-1" id="modalCreateCustomer">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal Create</h5>
+                    <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group" id="frm-create-customer">
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullName" class="form-control">
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" class="form-control">
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="province">Province</label>
+                                <select name="province" id="province" class="form-select">
+                                    <option value="-1" selected disabled>Select province</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <label for="district">District</label>
+                                <select name="district" id="district" class="form-select">
+                                    <option value="-1" selected disabled>Select district</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="ward">Ward</label>
+                                <select name="ward" id="ward" class="form-select">
+                                    <option value="-1" selected disabled>Select ward</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-12">
+                                <label for="address">Address</label>
+                                <input type="text" id="address" class="form-control">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnCreate">Save</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -211,7 +280,7 @@
                         <div class="row mb-3">
                             <div class="col-lg-6">
                                 <label for="recipient">Recipient</label>
-                                <select name="recipient" id="recipient" class="form-control">
+                                <select name="recipient" id="recipient" class="form-select">
                                     <option value="-1" selected disabled>Select recipient</option>
                                 </select>
                             </div>
@@ -227,7 +296,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <label for="transactionAmount">Transaction amount</label>
-                                <input type="text" id="transactionAmount" name="transactionAmount" value="" class="form-control" readonly>
+                                <input type="text" id="transactionAmountTrans" name="transactionAmount" class="form-control" readonly>
                             </div>
                         </div>
                     </form>
@@ -290,6 +359,7 @@
                 $.each(data, (index, item) => {
                     if(item.deleted == "false"){
                         let str = renderCustomer(item);
+                        console.log(str);
                         tbody.prepend(str);
                         $('.edit').off('click');
                         $('.delete').off('click');
@@ -332,6 +402,79 @@
             })
         }
         
+        function getAllProvinces(){
+            return $.ajax({
+            type: 'GET',
+            url: 'https://vapi.vnappmob.com/api/province/'
+            })
+            .done((data)=>{
+                let provinces = data.results;
+                 $.each(provinces, (i, item) => {
+                    let str = `<option value="${item.province_id}">${item.province_name}</option>`;                
+                    $('#province').append(str);
+                })
+            })
+            .fail((jqXHR)=>{
+            console.log(jqXHR);
+            })
+        }
+        
+        function getAllDistrictsByProvinceId(provinceId, elem){
+            return $.ajax({
+            type: 'GET',
+            url: 'https://vapi.vnappmob.com/api/province/district' + '/' + provinceId
+            })
+            .done((data)=>{
+                
+                let districts = data.results;
+                // console.log(districts);
+                $.each(districts, (i,item) =>{
+                    let  str = `<option value="${item.district_id}">${item.district_name}</option>`;
+                    elem.append(str);
+                })
+            })
+            .fail((jqXHR)=>{
+                console.log(jqXHR);
+            })
+        }
+        
+        function getAllWardsByDistrictId(districtId, elem){
+            return $.ajax({
+            type: 'GET',
+            url: 'https://vapi.vnappmob.com/api/province/ward' + '/' + districtId
+            })
+            .done((data) =>{
+                // elem.empty();
+                let wards = data.results;
+                $.each(wards, (i,item)=>{
+                    let str = `<option value="${item.ward_id}">${item.ward_name}</option>`;
+                    elem.append(str);
+                })
+            })
+            .fail((jqXHR)=>{
+            console.log(jqXHR);
+            })
+        }
+
+        function handleChangeProvince (elemProvince, elemDistrict, elemWard){
+            elemProvince.on("change",function (){
+            elemDistrict.empty();
+            let provinceId = $(this).val();
+            getAllDistrictsByProvinceId(provinceId, elemDistrict).then(()=>{
+                let districtId = elemDistrict.val();
+                getAllWardsByDistrictId(districtId, elemWard);
+                })
+            })
+        }
+
+        function handleChangeDistrict(elemDistrict, elemWard){
+            elemDistrict.on("change",function (){
+                elemWard.empty();
+                let districtId = $(this).val();
+                getAllWardsByDistrictId(districtId, elemWard);
+            })
+        }
+        
         function renderCustomer(customer) {
             return `
                     <tr id="tr_${customer.id}">
@@ -339,8 +482,11 @@
                         <td>${customer.fullName}</td>
                         <td>${customer.email}</td>
                         <td>${customer.phone}</td>
-                        <td>${customer.address}</td>
                         <td>${customer.balance}</td>
+                        <td>${customer.locationRegion.province_name}</td>
+                        <td>${customer.locationRegion.district_name}</td>
+                        <td>${customer.locationRegion.ward_name}</td>
+                        <td>${customer.locationRegion.address}</td>
                         <td>
                             <button class="btn btn-outline-primary edit" data-id="${customer.id}">
                                 <a>Edit</a>
@@ -348,19 +494,7 @@
 
                             <button class="btn btn-outline-danger delete" data-id="${customer.id}">
                                 <a>Delete</a>
-                            </button>
-
-                            <button class="btn btn-outline-success deposit" data-id="${customer.id}">
-                                <a>Deposit</a>
-                            </button>
-
-                            <button class="btn btn-outline-warning withraw" data-id="${customer.id}">
-                                <a>Withraw</a>
-                            </button>
-
-                            <button class="btn btn-outline-info transfer" data-id="${customer.id}">
-                                <a>Transfer</a>
-                            </button>
+                            </button>                       
                         </td>
                     </tr>
                 `;
@@ -384,6 +518,12 @@
             `;
         }
         
+        function resetFrm(){
+            $('.close').on('click', ()=>{
+                $('#frm-create-customer')[0].reset();
+            })
+        }
+
         getAllCustomers();
 
         $('#btnCreate').on('click', () => {
@@ -391,9 +531,15 @@
             let fullName = $('#fullName').val();
             let email = $('#email').val();
             let phone = $('#phone').val();
-            let address = $('#address').val();
             let balance = 0
             let deleted = "false";
+            let province_id = $('#province').val();
+            let province_name = $('#province').find("option:selected").text();
+            let district_id = $('#province').val();
+            let district_name = $('#province').find("option:selected").text();
+            let ward_id = $('#province').val();
+            let ward_name = $('#province').find("option:selected").text();
+            let address = $('#address').val();
 
             let customer = {
                 id,
@@ -402,7 +548,16 @@
                 phone,
                 address,
                 balance,
-                deleted
+                deleted,
+                locationRegion: {
+                    province_name,
+                    province_id,
+                    district_name,
+                    district_id,
+                    ward_name,
+                    ward_id,
+                    address
+                }
             }
             $.ajax({
                 type: 'POST',
@@ -420,7 +575,9 @@
 
                 tbody.prepend(str);
 
-                successAler("Add successful customer!!")
+                successAler("Add successful customer!!");
+
+                $('#modalCreateCustomer').modal('hide');
 
                 $('.edit').off('click');
                 $('.delete').off('click');
@@ -960,17 +1117,45 @@
             })
         }
         
-        $('#transferAmount').on("input", function(){
+        function eventCreate(){
+            $('#createCustomer').on('click', ()=>{
+                $('#modalCreateCustomer').modal('show');
+            })
+        }
+    
+        $(document).ready(function(){
+            $('#transferAmount').on("input", function(){
                 let transferAmount = +$('#transferAmount').val();
                 let fees = 10;
                 let feesAmount = transferAmount * fees / 100;
                 let transactionAmount = transferAmount + feesAmount;
-                $('#transactionAmount').val(transactionAmount);
+                if(isNaN(transactionAmount)){
+                    $('#transactionAmountTrans').val(0);
+                }else{
+                    $('#transactionAmountTrans').val(transactionAmount);
+                }
+                
+            })
+        
+            eventCreate();
+
+            resetFrm();
+        
+            getAllProvinces().then(()=>{
+                let provinceId = $('#province').val();
+                handleChangeProvince($('#province'),$('#district'),$('#ward')).then(()=>{
+                    getAllDistrictsByProvinceId(provinceId, $('#district'))
+                    
+                })
+            });
+
+            handleChangeDistrict($('#district'),$('#ward'));
         })
 
-        $(()=>{
+
+        // $(()=>{
             
-        })
+        // })
         
     </script>
 </body> 
